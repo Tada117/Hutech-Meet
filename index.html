@@ -9,6 +9,7 @@
 
     <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
     <link rel="stylesheet" href="css/all.css">
+    <link rel="stylesheet" href="css/my-css.css">
     <link rel="manifest" id="manifest-placeholder">
 
     <script>
@@ -184,11 +185,67 @@
     <!--#include virtual="static/welcomePageAdditionalContent.html" -->
     <!--#include virtual="static/welcomePageAdditionalCard.html" -->
     <!--#include virtual="static/settingsToolbarAdditionalContent.html" -->
+    <script>
+        function openForm() {
+                document.getElementById("attendanceForm").style.display = "block";
+            }
+        function closeForm() {
+            document.getElementById("attendanceForm").style.display = "none";
+        }
+    </script> 
+    <script type="text/javascript">
+    $(document).ready(function()
+    { 
+      var submit = $("button[type='submit']");
+      submit.click(function()
+                  {
+                     var data = {
+                         MSSV: document.getElementById("mssv").value,
+                         Ho_ten: document.getElementById("name").value,
+                     }
+                     $.ajax({
+                               type : 'GET', 
+                               url : 'https://script.google.com/macros/s/AKfycbxiHuNlBjaneS_THVMdg5StWDH6IMVyqBfxACkUhkpOK9DpOGTW/exec',
+                               dataType:'json',
+                               crossDomain : true,
+                               data : data,
+                               success : function(data)
+                             { 
+                     if(data == 'false') 
+                             {
+                                alert('Diem danh that bai');
+                             }else{
+                                alert('Diem danh thanh cong');
+                             }
+                  }
+       });
+       return false;
+      });
+    });
+    </script>
+    
   </head>
   <body>
     <noscript>
         <div>JavaScript is disabled. </br>For this site to work you have to enable JavaScript.</div>
     </noscript>
+        <!-- #include virtual="body.html" -->
+        <button class="open-button" onclick="openForm()">Diem danh</button> 
+        <div class="form-popup" id="attendanceForm">
+            <form method="GET" class="form-container" id="attendance-form" >
+                <h1>Nhap Thong Tin</h1>
+    
+                <label for="mssv"><b>MSSV</b></label>
+                <input  type="text" name="MSSV" id="mssv" placeholder="Nhap MSSV">
+    
+                <label for="name"><b>Name</b></label>
+                <input  type="text" name="Name" id="name" placeholder="Nhap Ten">
+    
+                <button type="submit" class="btn" id="submit-form">Gui</button>
+                <button type="button" class="btn cancel" onclick="closeForm()">Huy</button>
+    
+            </form>
+        </div>
     <!--#include virtual="body.html" -->
     <div id="react"></div>
   </body>
